@@ -1,0 +1,15 @@
+export const BOARD_THEMES = [
+    "bg-linear-to-r from-red-500 to-orange-500",
+    "bg-linear-to-r from-rose-400 to-red-500",
+    "bg-linear-to-r from-pink-500 to-rose-500",
+    "bg-linear-to-r from-amber-200 to-yellow-400",
+    "bg-linear-to-r from-amber-500 to-pink-500",
+    "bg-linear-to-r from-violet-200 to-pink-200",
+    "bg-linear-to-r from-blue-200 to-cyan-200",
+    "bg-linear-to-r from-teal-200 to-teal-500",
+    "bg-linear-to-r from-lime-400 to-lime-500",
+    "bg-linear-to-r from-teal-400 to-yellow-200",
+    "bg-linear-to-r from-fuchsia-500 to-cyan-500",
+    "bg-linear-to-r from-emerald-500 to-emerald-900",
+    "bg-linear-to-r from-slate-500 to-slate-800",
+  ];
