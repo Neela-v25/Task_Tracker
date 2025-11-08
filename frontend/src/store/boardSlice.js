@@ -1,22 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getListKey } from "../utils/listKey";
+import { projectData } from "../../data/sampleData";
 
 const initialState = {
   //task object
   /*{
+    boardId,
     actionId,
     taskId,
     taskName,
     taskDesc,
     dueDate,
   } */
-  toDoTasks: [],
-  inProgressTasks: [],
-  doneTasks: [],
+  //board object   {boardId, boardName, boardDesc, collaborators, boardTheme}
+  boards: projectData.boards,
+  toDoTasks: projectData.toDoTasks,
+  inProgressTasks: projectData.inProgressTasks,
+  doneTasks: projectData.doneTasks,
   dropDownAction: "",
-  backgroundTheme: "bg-linear-to-r from-rose-400 to-red-500",
-  isDialogOpen: false,
   selectedTask: {},
+  activeBoard: projectData.boards[0],
+  modal: {
+    isOpen: false,
+    type: null, // 'task' || 'switch'
+  },
 };
 
 export const boardSlice = createSlice({
@@ -24,13 +31,25 @@ export const boardSlice = createSlice({
   initialState,
   reducers: {
     setBackgroundTheme(state, action) {
-      state.backgroundTheme = action.payload;
+      const { boardId } = state.activeBoard;
+      state.activeBoard.boardTheme = action.payload;
+      const index = state.boards.findIndex((item) => item.boardId === boardId);
+      state.boards[index].boardTheme = action.payload;
     },
     setDropDownAction(state, action) {
       state.dropDownAction = action.payload;
     },
-    toggleDialog(state, action) {
-      state.isDialogOpen = action.payload;
+    openDialog(state, action) {
+      state.modal = {
+        isOpen: true,
+        type: action.payload,
+      };
+    },
+    closeDialog(state) {
+      state.modal = {
+        isOpen: false,
+        type: null,
+      };
     },
     setSelectedTask(state, action) {
       state.selectedTask = action.payload;
@@ -64,6 +83,21 @@ export const boardSlice = createSlice({
       taskToBeMoved.actionId = toListId; // update its status
       state.selectedTask.actionId = toListId; // update its status
       state[toKey].unshift(taskToBeMoved); // add to new list
+    },
+    setActiveBoard(state, action) {
+      state.activeBoard = action.payload;
+    },
+    setNewBoard(state, action) {
+      state.boards.unshift(action.payload);
+    },
+    updateBoard(state, action) {
+      const index = state.boards.findIndex(
+        (item) => item.boardId === state.activeBoard.boardId
+      );
+      if (index !== -1) {
+        state.boards[index] = action.payload;
+        state.activeBoard = action.payload;
+      }
     },
   },
 });

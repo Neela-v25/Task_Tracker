@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { boardActions } from "../../store/boardSlice";
+import { useBoardTasks } from "../../hooks/useBoardTasks";
 
 const TASK_TITLE = ["TO DO", "IN PROGRESS", "DONE"];
 
@@ -10,6 +11,8 @@ function TaskCards() {
   const toDoTasks = useSelector((state) => state.board.toDoTasks);
   const inProgressTasks = useSelector((state) => state.board.inProgressTasks);
   const doneTasks = useSelector((state) => state.board.doneTasks);
+  const activeBoard = useSelector(state => state.board.activeBoard);
+  const { getTasks } = useBoardTasks();
 
   const TASK_LIST = [toDoTasks, inProgressTasks, doneTasks];
 
@@ -32,6 +35,7 @@ function TaskCards() {
           taskId: "abcded",
           taskName: taskName[actionId],
           actionId: TASK_TITLE[actionId],
+          boardId: activeBoard.boardId,
         })
       );
       setTaskName([]);
@@ -44,8 +48,9 @@ function TaskCards() {
       actionId: TASK_TITLE[index],
       taskDesc: item.taskDesc,
       taskId: item.taskId,
+      boardId: item.boardId,
     }))
-    dispatch(boardActions.toggleDialog(true));
+    dispatch(boardActions.openDialog('task'));
   }
 
   return (
@@ -56,7 +61,7 @@ function TaskCards() {
           key={index}
         >
           <h6 className="text-center font-medium mb-2">{title}</h6>
-          {TASK_LIST[index]?.map((item) => (
+          {getTasks(TASK_LIST[index], activeBoard.boardId)?.map((item) => (
             <div
               className="border border-gray-400 rounded-md mb-1 mt-2 p-2 w-11/12 hover:bg-gray-200 cursor-pointer"
               key={item.taskName}
