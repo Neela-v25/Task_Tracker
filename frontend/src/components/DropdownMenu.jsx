@@ -7,7 +7,7 @@ function DropdownMenu({ menuList, position, onClose }) {
 
   return (
     <div
-      className={`absolute ${position} bg-white h-fit w-50 p-3 rounded shadow-md`}
+      className={`absolute ${position} bg-white h-fit w-50 p-3 rounded shadow-md z-40`}
     >
       <menu>
         {menuList.map((item) => (

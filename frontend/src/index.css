@@ -3,3 +3,11 @@
 button{
     cursor: pointer;
 }
+
+th, td{
+    padding: 4px
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}

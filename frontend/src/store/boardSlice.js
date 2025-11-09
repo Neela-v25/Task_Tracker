@@ -17,7 +17,8 @@ const initialState = {
   toDoTasks: projectData.toDoTasks,
   inProgressTasks: projectData.inProgressTasks,
   doneTasks: projectData.doneTasks,
-  dropDownAction: "",
+  dropDownAction: "", // 'background' || 'about' || 'addMenu
+  view: "board", //'table' || 'board' 
   selectedTask: {},
   activeBoard: projectData.boards[0],
   modal: {
@@ -38,6 +39,9 @@ export const boardSlice = createSlice({
     },
     setDropDownAction(state, action) {
       state.dropDownAction = action.payload;
+    },
+    setView(state, action){
+      state.view = action.payload;
     },
     openDialog(state, action) {
       state.modal = {

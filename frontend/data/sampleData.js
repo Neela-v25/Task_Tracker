@@ -5,7 +5,7 @@ export const projectData = {
         boardName: "Website Redesign Project",
         boardDesc: "Complete overhaul of the company’s main website for 2025 launch.",
         collaborators: ["alice@example.com", "bob@example.com", "charlie@example.com"],
-        boardTheme: "bg-linear-to-r from-rose-400 to-red-500",
+        boardTheme: "bg-gradient-to-tl from-[#15803d] via-[#115e59] to-[#164e63]",
       },
       {
         boardId: "board_002",
@@ -45,7 +45,7 @@ export const projectData = {
         taskId: "task_1002",
         taskName: "Plan Navigation Structure",
         taskDesc: "Define header, footer, and sidebar layout for the new site.",
-        dueDate: "2025-11-18",
+        dueDate: "2025-11-15",
       },
       {
         boardId: "board_002",
@@ -64,7 +64,7 @@ export const projectData = {
         taskId: "task_1003",
         taskName: "Develop Home Page",
         taskDesc: "Code the home page layout using React and Tailwind CSS.",
-        dueDate: "2025-11-10",
+        dueDate: "2025-11-15",
       },
       {
         boardId: "board_001",

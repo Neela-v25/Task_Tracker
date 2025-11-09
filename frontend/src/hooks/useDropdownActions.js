@@ -9,6 +9,10 @@ export const useDropdownActions = () => {
     dispatch(boardActions.setDropDownAction(action));
   };
 
+  const onViewChange = (action) => {
+    dispatch(boardActions.setView(action));
+  };
+
   const moveTask = (toListId) => {
     dispatch(
       boardActions.moveTask({
@@ -48,8 +52,27 @@ export const useDropdownActions = () => {
     },
   ];
 
+  const viewMenu = [
+    {
+      menu: "Table",
+      action: "table",
+      onClick: onViewChange
+    },
+    {
+      menu: "Board",
+      action: "board",
+      onClick: onViewChange
+    },
+    {
+      menu: "Calendar",
+      action: "calendar",
+      onClick: onViewChange
+    }
+  ];
+
   return {
     settingsMenu,
     moveMenu,
+    viewMenu,
   };
 };

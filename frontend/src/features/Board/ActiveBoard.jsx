@@ -9,16 +9,19 @@ import TaskCards from "./TaskCards";
 import { boardActions } from "../../store/boardSlice";
 import { useDropdownActions } from "../../hooks/useDropdownActions";
 import AboutMenu from "./AboutMenu";
+import TableView from "../Views/TableView";
+import CalendarView from "../Views/CalendarView";
 
 function ActiveBoard() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isViewMenuOpen, setIsViewMenuOpen] = useState(false);
   const dropDownAction = useSelector((state) => state.board.dropDownAction);
+  const view = useSelector(state => state.board.view);
   const activeBoard = useSelector((state) => state.board.activeBoard);
   const [boardName, setBoardName] = useState(activeBoard.boardName);
   const inputRef = useRef(null)
   const dispatch = useDispatch();
-  const { settingsMenu } = useDropdownActions();
+  const { settingsMenu, viewMenu } = useDropdownActions();
 
   useEffect(() => {
     setBoardName(activeBoard.boardName)
@@ -60,7 +63,7 @@ function ActiveBoard() {
     >
       <div className="flex items-center gap-4">
         <input
-          className="outline-none text-xl font-semibold focus:bg-white focus:p-1 focus:rounded"
+          className="outline-none text-xl font-semibold focus:bg-white focus:p-1 focus:rounded text-white"
           type="text"
           value={boardName}
           onChange={(e) => setBoardName(e.target.value)}
@@ -75,10 +78,10 @@ function ActiveBoard() {
           <ViewListIcon />
         </IconButton>
         {isViewMenuOpen && (
-          <DropdownMenu menuList={VIEW_MENU} position="right-30 top-35" />
+          <DropdownMenu menuList={viewMenu} position="right-30 top-35" onClose={closeMenus}/>
         )}
         <button
-          className="text-5xl text-center relative"
+          className="text-5xl text-center relative text-white"
           onClick={onSettingsClick}
         >
           <sup>...</sup>
@@ -95,7 +98,9 @@ function ActiveBoard() {
         )}
         {dropDownAction === "about" && <AboutMenu position="right-22 top-35" />}
       </div>
-      <TaskCards />
+      {view === "board" && <TaskCards />}
+      {view === "table" && <TableView />}
+      {view === "calendar" && <CalendarView />}
     </div>
   );
 }

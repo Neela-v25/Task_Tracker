@@ -9,7 +9,7 @@ function MenuCard({ position, cardTitle, children }) {
   };
   return (
     <div
-      className={`absolute ${position} bg-white h-100 w-80 overflow-y-auto p-3 rounded`}
+      className={`absolute ${position} bg-white h-100 w-80 overflow-y-auto p-3 rounded shadow-2xl shadow-neutral-600`}
     >
       <div className="flex justify-between items-center">
         <h6 className="text-center mb-2">{cardTitle}</h6>
@@ -23,4 +23,4 @@ function MenuCard({ position, cardTitle, children }) {
   );
 }
 
-export default MenuCard;  
+export default MenuCard;

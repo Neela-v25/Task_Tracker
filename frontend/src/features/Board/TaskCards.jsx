@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { boardActions } from "../../store/boardSlice";
+import { useSelector } from "react-redux";
 import { useBoardTasks } from "../../hooks/useBoardTasks";
 
 const TASK_TITLE = ["TO DO", "IN PROGRESS", "DONE"];
@@ -11,12 +10,10 @@ function TaskCards() {
   const toDoTasks = useSelector((state) => state.board.toDoTasks);
   const inProgressTasks = useSelector((state) => state.board.inProgressTasks);
   const doneTasks = useSelector((state) => state.board.doneTasks);
-  const activeBoard = useSelector(state => state.board.activeBoard);
-  const { getTasks } = useBoardTasks();
+  const activeBoard = useSelector((state) => state.board.activeBoard);
+  const { getTasks, handleTaskSelect, addTask } = useBoardTasks();
 
   const TASK_LIST = [toDoTasks, inProgressTasks, doneTasks];
-
-  const dispatch = useDispatch();
 
   const onInputChange = (e, index) => {
     let temp = [...taskName];
@@ -30,28 +27,15 @@ function TaskCards() {
     }
     if (e.key === "Enter" || e.target.id === "add") {
       setopenInputIndex("");
-      dispatch(
-        boardActions.addTask({
-          taskId: "abcded",
-          taskName: taskName[actionId],
-          actionId: TASK_TITLE[actionId],
-          boardId: activeBoard.boardId,
-        })
-      );
+      addTask({
+        taskId: "abcded",
+        taskName: taskName[actionId],
+        actionId: TASK_TITLE[actionId],
+        boardId: activeBoard.boardId,
+      });
       setTaskName([]);
     }
   };
-
-  const handleTaskClick = (item, index) => {
-    dispatch(boardActions.setSelectedTask({
-      taskName: item.taskName,
-      actionId: TASK_TITLE[index],
-      taskDesc: item.taskDesc,
-      taskId: item.taskId,
-      boardId: item.boardId,
-    }))
-    dispatch(boardActions.openDialog('task'));
-  }
 
   return (
     <div className="grid grid-cols-3 gap-3 h-full">
@@ -65,7 +49,7 @@ function TaskCards() {
             <div
               className="border border-gray-400 rounded-md mb-1 mt-2 p-2 w-11/12 hover:bg-gray-200 cursor-pointer"
               key={item.taskName}
-              onClick={() => handleTaskClick(item, index)}
+              onClick={() => handleTaskSelect(item)}
             >
               {item.taskName}
             </div>

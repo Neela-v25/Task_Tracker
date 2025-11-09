@@ -14,22 +14,26 @@ function TaskModal({ selectedTask }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const descRef = useRef(null);
   const { moveMenu } = useDropdownActions();
+  const [taskName, setTaskName] = useState(selectedTask.taskName);
+  const [dueDate, setDueDate] = useState(selectedTask.dueDate);
 
   const toggleTextArea = (toggle) => {
     setIsTextAreaOpen(toggle);
   };
 
-  const onSave = () => {
-    toggleTextArea(false);
+  const updateInput = (itemKey, itemValue, setterFunc) => {
+    if(setterFunc) setterFunc(itemValue);
     dispatch(
       boardActions.updateTask({
-        actionId: selectedTask.actionId,
-        taskName: selectedTask.taskName,
-        taskDesc: descRef.current.value,
-        taskId: selectedTask.taskId,
-        boardId: selectedTask.boardId,
+        ...selectedTask,
+        [itemKey]: itemValue,
       })
     );
+  };
+
+  const onSave = () => {
+    toggleTextArea(false);
+    updateInput("taskDesc", descRef.current.value);
   };
 
   const handleDropdown = () => {
@@ -62,15 +66,20 @@ function TaskModal({ selectedTask }) {
       <div className="flex flex-col w-1/2">
         <input
           type="text"
-          value={selectedTask.taskName}
-          onChange={() => {}}
+          value={taskName}
+          onChange={(e) => updateInput("taskName", e.target.value, setTaskName)}
           className="rounded p-2 outline-blue-400 mb-6 text-xl border-2 border-gray-300"
         />
         <span className="flex items-center gap-1">
           <DateRangeIcon />
           Due date
         </span>
-        <input type="date" className="w-30 ml-6 mt-2" />
+        <input
+          type="date"
+          className="w-30 ml-6 mt-2"
+          value={dueDate}
+          onChange={(e) => updateInput("dueDate", e.target.value, setDueDate)}
+        />
         <div>
           <span className="flex items-center gap-1 mt-4">
             <SubjectIcon />
