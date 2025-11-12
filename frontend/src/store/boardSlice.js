@@ -18,7 +18,7 @@ const initialState = {
   inProgressTasks: projectData.inProgressTasks,
   doneTasks: projectData.doneTasks,
   dropDownAction: "", // 'background' || 'about' || 'addMenu
-  view: "board", //'table' || 'board' 
+  view: "board", //'table' || 'board'
   selectedTask: {},
   activeBoard: projectData.boards[0],
   modal: {
@@ -40,7 +40,7 @@ export const boardSlice = createSlice({
     setDropDownAction(state, action) {
       state.dropDownAction = action.payload;
     },
-    setView(state, action){
+    setView(state, action) {
       state.view = action.payload;
     },
     openDialog(state, action) {
@@ -101,6 +101,70 @@ export const boardSlice = createSlice({
       if (index !== -1) {
         state.boards[index] = action.payload;
         state.activeBoard = action.payload;
+      }
+    },
+    reorderTasks(state, action) {
+      const { activeId, overId, activeContainer } = action.payload;
+      const list = [...state[activeContainer]];
+
+      const aIdx = list.findIndex((t) => t.taskId === activeId);
+      const bIdx = list.findIndex((t) => t.taskId === overId);
+
+      if (aIdx === -1 || bIdx === -1) return;
+
+      const [moved] = list.splice(aIdx, 1);
+      list.splice(bIdx, 0, moved);
+      state[activeContainer] = list;
+    },
+    moveTaskAcrossLists(state, action) {
+      const { activeId, activeContainer, overContainer } = action.payload;
+      if (activeContainer === overContainer) return;
+
+      let sourceList = [...state[activeContainer]];
+
+      let idx = sourceList.findIndex((t) => t.taskId === activeId);
+
+      if (idx === -1) return;
+
+      const [task] = sourceList.splice(idx, 1);
+
+      task.actionId =
+        overContainer === "toDoTasks"
+          ? "To do"
+          : overContainer === "inProgressTasks"
+          ? "In progress"
+          : "Done";
+
+      state[activeContainer] = sourceList;
+      state[overContainer].unshift(task);
+    },
+    handleDrop(state, action) {
+      const { activeId, overId } = action.payload;
+
+      const findContainer = (id) => {
+        for (const key of ["toDoTasks", "inProgressTasks", "doneTasks"]) {
+          if (state[key].some((t) => t.taskId === id)) return key;
+        }
+        return null;
+      };
+
+      const activeContainer = findContainer(activeId);
+      const overContainer = findContainer(overId);
+
+      if (!activeContainer || !overContainer) return;
+
+      if (activeContainer === overContainer) {
+        boardSlice.caseReducers.reorderTasks(state, {
+          payload: { activeId, overId, activeContainer },
+        });
+      } else {
+        boardSlice.caseReducers.moveTaskAcrossLists(state, {
+          payload: {
+            activeId,
+            activeContainer,
+            overContainer,
+          },
+        });
       }
     },
   },

@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { useBoardTasks } from "../../hooks/useBoardTasks";
 import AddCardButton from "../../components/AddCardButton";
+import { format } from "date-fns";
 
 function TableView() {
   const toDoTasks = useSelector((state) => state.board.toDoTasks);
@@ -32,7 +33,7 @@ function TableView() {
               >
                 <td>{item.taskName}</td>
                 <td>{item.actionId}</td>
-                <td>{item.dueDate}</td>
+                <td>{item.dueDate && format(item.dueDate, 'MMM dd')}</td>
               </tr>
             ))}
           </tbody>

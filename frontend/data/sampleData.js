@@ -37,7 +37,7 @@ export const projectData = {
         taskId: "task_1001",
         taskName: "Design Login Page",
         taskDesc: "Create responsive UI for the login page using Figma.",
-        dueDate: "2025-11-15",
+        dueDate: "2025-11-10",
       },
       {
         boardId: "board_001",

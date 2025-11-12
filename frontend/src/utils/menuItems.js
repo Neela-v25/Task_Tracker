@@ -1,1 +1,0 @@
-export const VIEW_MENU = ["Table", "Board"];

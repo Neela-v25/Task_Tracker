@@ -1,4 +1,5 @@
-import Button from "@mui/material/Button";
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { useSelector } from "react-redux";
 import {
   startOfMonth,
@@ -86,14 +87,10 @@ function CalendarView() {
   return (
     <>
       <div className="bg-white rounded-md shadow overflow-hidden flex flex-col max-h-[55vh]">
-        <div className="flex gap-4 items-center">
-          <Button onClick={() => setCurrMonth((prev) => subMonths(prev, 1))}>
-            {"<"}
-          </Button>
-          <Button>{format(currMonth, "MMM yyyy")}</Button>
-          <Button onClick={() => setCurrMonth((prev) => addMonths(prev, 1))}>
-            {">"}
-          </Button>
+        <div className="flex gap-4 items-center mt-1">
+          <ChevronLeftIcon onClick={() => setCurrMonth((prev) => subMonths(prev, 1))} color="action" className="cursor-pointer"/>
+          <h4 className="font-medium">{format(currMonth, "MMM yyyy")}</h4>
+          <ChevronRightIcon onClick={() => setCurrMonth((prev) => addMonths(prev, 1))} color="action" className="cursor-pointer"/>
         </div>
 
         <div className="sticky top-10 z-10 bg-white border-b grid grid-cols-7 text-sm font-medium text-center text-gray-500">
@@ -104,7 +101,7 @@ function CalendarView() {
           ))}
         </div>
 
-        <div className="overflow-y-auto">
+        <div className="overflow-y-auto mt-3">
           <div className="text-center">{rows}</div>
         </div>
       </div>

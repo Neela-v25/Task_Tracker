@@ -16,6 +16,7 @@ function CreateBoardMenu({ position, closeMenu }) {
       boardName: titleRef.current?.value,
       boardDesc: descRef.current?.value,
       boardTheme,
+      collaborators: [],
     };
     dispatch(boardActions.setNewBoard(newBoard));
     dispatch(boardActions.setActiveBoard(newBoard));
@@ -27,7 +28,7 @@ function CreateBoardMenu({ position, closeMenu }) {
   };
   return (
     <div
-      className={`absolute ${position} bg-white h-100 w-80 overflow-y-auto p-3 rounded`}
+      className={`absolute ${position} bg-white h-100 w-80 overflow-y-auto p-3 rounded shadow-xl shadow-neutral-400 z-40`}
     >
       <h6 className="text-center mb-2 text-gray-600">
         Select a theme for the board
