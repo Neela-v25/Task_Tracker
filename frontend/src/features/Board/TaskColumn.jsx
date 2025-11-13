@@ -6,12 +6,14 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import Card from "./Card";
+import TaskColumnHeader from "./TaskColumnHeader";
 
 const TASK_TITLE = ["TO DO", "IN PROGRESS", "DONE"];
 
 function TaskColumn() {
   const [openInputIndex, setopenInputIndex] = useState("");
   const [taskName, setTaskName] = useState(["", "", ""]);
+  const [listBgColor, setListBgColor] = useState(Array(3).fill('bg-gray-200'))
   const toDoTasks = useSelector((state) => state.board.toDoTasks);
   const inProgressTasks = useSelector((state) => state.board.inProgressTasks);
   const doneTasks = useSelector((state) => state.board.doneTasks);
@@ -44,6 +46,12 @@ function TaskColumn() {
     }
   };
 
+  const onListBgColorChange = (title, color) => {
+    let temp = [...listBgColor];
+    temp[TASK_TITLE.findIndex(item => item === title)] = color;
+    setListBgColor(temp)
+  }
+
   return (
     <div className="grid grid-cols-3 gap-3 h-full">
       {TASK_TITLE.map((title, index) => {
@@ -52,9 +60,9 @@ function TaskColumn() {
         return (
           <div
             key={index}
-            className="bg-gray-200 rounded-xl h-fit w-3/4 p-3 flex flex-col text-black"
+            className={`${listBgColor[index]} rounded-xl h-fit w-3/4 p-3 flex flex-col text-black`}
           >
-            <h6 className="text-center font-medium mb-2">{title}</h6>
+            <TaskColumnHeader title={title} onColorChange={onListBgColorChange}/>
 
             <SortableContext
               items={tasks.map((t) => t.taskId)} // use stable array of ids

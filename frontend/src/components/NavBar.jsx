@@ -1,6 +1,7 @@
 import Button from "@mui/material/Button";
 import { useState } from "react";
 import CreateBoardMenu from "../features/Board/CreateBoardModal";
+import SearchBar from "./SearchBar";
 
 function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,10 +12,7 @@ function NavBar() {
   return (
     <div className="flex justify-between items-center p-6 ml-50">
       <div className="flex items-center w-5/6 gap-4">
-        <input
-          type="text"
-          className="w-2/4 h-8 border border-black outline-none p-3"
-        />
+        <SearchBar />
         <div className="relative">
           <Button variant="contained" onClick={handleClick}>
             Create
